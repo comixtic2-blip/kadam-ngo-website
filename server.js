@@ -82,3 +82,37 @@ app.use(express.static(__dirname));
 app.listen(port, '0.0.0.0', () => {
     console.log("Server running on port " + port);
 });
+
+const fs = require("fs");
+const DATA_FILE = "data.json";
+
+/* ===== READ DATA ===== */
+function readData() {
+    if (!fs.existsSync(DATA_FILE)) {
+        fs.writeFileSync(DATA_FILE, JSON.stringify({
+            hof: [],
+            events: [],
+            testimonials: [],
+            socialLinks: [],
+            donationQR: "",
+            indexSettings: {}
+        }, null, 2));
+    }
+    return JSON.parse(fs.readFileSync(DATA_FILE));
+}
+
+/* ===== SAVE DATA ===== */
+function saveData(data) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
+
+/* ===== GET DATA ===== */
+app.get("/data", (req, res) => {
+    res.json(readData());
+});
+
+/* ===== UPDATE DATA ===== */
+app.post("/data", (req, res) => {
+    saveData(req.body);
+    res.json({ success: true });
+});
