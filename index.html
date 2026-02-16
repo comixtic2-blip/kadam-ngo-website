@@ -116,32 +116,33 @@
 <script src="script.js"></script>
 
 <script>
-window.onload=function(){
+window.onload = async function(){
 
-  /* Apply saved index settings */
-  applyIndexSettings();
+  // Fetch ALL data from server
+  const res = await fetch("/data");
+  const data = await res.json();
+
+  // Apply index settings
+  applyIndexSettings(data.indexSettings);
 
   // Hall of Fame
-  let hof=JSON.parse(localStorage.getItem("hof")||"[]");
-  let hofHTML="";
-  hof.forEach(img=>{
-    hofHTML+=`<div class="card"><img src="${img}"></div>`;
+  let hofHTML = "";
+  data.hof.forEach(img=>{
+    hofHTML += `<div class="card"><img src="${img}"></div>`;
   });
-  document.getElementById("hofContainer").innerHTML=hofHTML;
+  document.getElementById("hofContainer").innerHTML = hofHTML;
 
   // Testimonials
-  let testimonials=JSON.parse(localStorage.getItem("testimonials")||"[]");
-  let tHTML="";
-  testimonials.forEach(t=>{
-    tHTML+=`<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
+  let tHTML = "";
+  data.testimonials.forEach(t=>{
+    tHTML += `<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
   });
-  document.getElementById("testimonialContainer").innerHTML=tHTML;
+  document.getElementById("testimonialContainer").innerHTML = tHTML;
 
   // Events
-  let events=JSON.parse(localStorage.getItem("events")||"[]");
-  let eHTML="";
-  events.forEach(e=>{
-    eHTML+=`
+  let eHTML = "";
+  data.events.forEach(e=>{
+    eHTML += `
       <div class="card">
         ${e.image?`<img src="${e.image}">`:""}
         <h3>${e.title}</h3>
@@ -149,46 +150,48 @@ window.onload=function(){
         ${e.brochure?`<img src="${e.brochure}">`:""}
       </div>`;
   });
-  document.getElementById("eventContainer").innerHTML=eHTML;
+  document.getElementById("eventContainer").innerHTML = eHTML;
 
   // QR
-  let qr=localStorage.getItem("donationQR");
-  if(qr){document.getElementById("donationQR").src=qr;}
+  if(data.donationQR){
+    document.getElementById("donationQR").src = data.donationQR;
+  }
 
   // Social Links
-  let socials=JSON.parse(localStorage.getItem("socialLinks")||"[]");
-  let sHTML="";
-  socials.forEach(s=>{
-    sHTML+=`<div><a class="socialLink" href="${s.link}" target="_blank">${s.name}</a></div>`;
+  let sHTML = "";
+  data.socialLinks.forEach(s=>{
+    sHTML += `<div><a class="socialLink" href="${s.link}" target="_blank">${s.name}</a></div>`;
   });
-  document.getElementById("socialContainer").innerHTML=sHTML;
+  document.getElementById("socialContainer").innerHTML = sHTML;
 
-  applyIndexSettings(); // apply again after links load
-}
+};
 </script>
 
 <script>
-function applyIndexSettings(){
-  const settings=JSON.parse(localStorage.getItem("indexSettings")||"{}");
-  Object.keys(settings).forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el) return;
-    const s=settings[id];
-    if(s.text) el.innerText=s.text;
-    el.style.color=s.color;
-    el.style.fontFamily=s.font;
-    el.style.textAlign=s.align;
+function applyIndexSettings(settings){
+  if(!settings) return;
 
-    el.style.background="transparent";
-    el.style.borderRadius="0";
+  Object.keys(settings).forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    const s = settings[id];
+
+    if(s.text) el.innerText = s.text;
+    el.style.color = s.color;
+    el.style.fontFamily = s.font;
+    el.style.textAlign = s.align;
+
+    el.style.background = "transparent";
+    el.style.borderRadius = "0";
 
     if(s.box){
-      if(s.scope==="headline"){
-        el.style.display="inline-block";
+      if(s.scope === "headline"){
+        el.style.display = "inline-block";
       }
-      el.style.background=s.boxColor;
-      el.style.borderRadius=s.radius;
-      el.style.padding="10px 20px";
+      el.style.background = s.boxColor;
+      el.style.borderRadius = s.radius;
+      el.style.padding = "10px 20px";
     }
   });
 }
