@@ -26,7 +26,6 @@
 <aside class="sidebar">
   <h2 class="logo"><i data-feather="tool"></i> KADAM panel</h2>
   <nav>
-    <a onclick="scrollToSection('indexSettings')"><i data-feather="edit"></i> Index Settings</a>
     <a onclick="scrollToSection('hofSection')"><i data-feather="award"></i> Hall of Fame</a>
     <a onclick="scrollToSection('eventsSection')"><i data-feather="calendar"></i> Events</a>
     <a onclick="scrollToSection('testimonialSection')"><i data-feather="message-circle"></i> Testimonials</a>
@@ -37,83 +36,6 @@
 </aside>
 
 <main class="main-content">
-
-<!-- INDEX SETTINGS -->
-<section id="indexSettings" class="section card-section">
-<h2><i data-feather="settings"></i> Index Settings</h2>
-<div class="section-content">
-  <div class="form-group">
-    <label>Section</label>
-    <select id="editSection">
-      <option value="mainTitle">Main Title</option>
-      <option value="founderLine">Founder Line</option>
-      <option value="hallHeading">Hall of Fame</option>
-      <option value="testimonialHeading">Testimonials</option>
-      <option value="eventHeading">Events</option>
-      <option value="supportHeading">Support</option>
-      <option value="connectHeading">Connect</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Text</label>
-    <input type="text" id="editText" placeholder="Edit Text">
-  </div>
-
-  <div class="form-group color-picker-wrapper">
-    <label>Color</label>
-    <input type="color" id="editColor">
-    <div class="color-preview" id="editColorPreview"></div>
-  </div>
-
-  <div class="form-group">
-    <label>Font</label>
-    <select id="editFont">
-      <option>Arial</option>
-      <option>Georgia</option>
-      <option>Verdana</option>
-      <option>Times New Roman</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Text Align</label>
-    <select id="editAlign">
-      <option value="left">Left</option>
-      <option value="center">Center</option>
-      <option value="right">Right</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label><input type="checkbox" id="editBox"> Enable Box</label>
-  </div>
-
-  <div class="form-group">
-    <label>Box Color</label>
-    <input type="color" id="editBoxColor">
-  </div>
-
-  <div class="form-group">
-    <label>Border Radius</label>
-    <select id="editRadius">
-      <option value="0px">Sharp</option>
-      <option value="15px">Rounded</option>
-      <option value="30px">More Rounded</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>Scope</label>
-    <select id="editScope">
-      <option value="headline">Headline Only</option>
-      <option value="section">Full Section</option>
-    </select>
-  </div>
-
-  <button onclick="saveIndexSettings()"><i data-feather="save"></i> Save</button>
-</div>
-</section>
 
 <!-- HOF -->
 <section id="hofSection" class="section card-section">
@@ -184,26 +106,8 @@
 
 <script src="script.js"></script>
 
-<!-- Server-side index editor -->
-<textarea id="editor" style="width:100%;height:300px;">
-<!-- Load index.html content here -->
-</textarea>
-<button id="saveBtn" class="card-section"><i data-feather="save"></i> Save Changes</button>
-
 <script>
-feather.replace(); // Render icons
-
-document.getElementById('saveBtn').addEventListener('click', () => {
-    const content = document.getElementById('editor').value;
-    fetch('/update-index', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content })
-    })
-    .then(res => res.text())
-    .then(msg => alert(msg))
-    .catch(err => alert('Error: ' + err));
-});
+feather.replace();
 </script>
 
 </body>
