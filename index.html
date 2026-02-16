@@ -24,6 +24,7 @@
     nav a{
       text-decoration:none;
       font-weight:bold;
+      color:white;
     }
 
     header{
@@ -113,61 +114,60 @@
   © Kadam Foundation
 </footer>
 
-<script src="script.js"></script>
-
+<!-- ================= MAIN SCRIPT ================= -->
 <script>
-window.onload = async function(){
+async function loadWebsiteData(){
 
-  // Fetch ALL data from server
   const res = await fetch("/data");
   const data = await res.json();
 
-  // Apply index settings
   applyIndexSettings(data.indexSettings);
 
-  // Hall of Fame
+  /* ===== HALL OF FAME ===== */
   let hofHTML = "";
   data.hof.forEach(img=>{
     hofHTML += `<div class="card"><img src="${img}"></div>`;
   });
   document.getElementById("hofContainer").innerHTML = hofHTML;
 
-  // Testimonials
+  /* ===== TESTIMONIALS ===== */
   let tHTML = "";
   data.testimonials.forEach(t=>{
     tHTML += `<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
   });
   document.getElementById("testimonialContainer").innerHTML = tHTML;
 
-  // Events
+  /* ===== EVENTS ===== */
   let eHTML = "";
   data.events.forEach(e=>{
     eHTML += `
       <div class="card">
-        ${e.image?`<img src="${e.image}">`:""}
+        ${e.image ? `<img src="${e.image}">` : ""}
         <h3>${e.title}</h3>
         <p>${e.date}</p>
-        ${e.brochure?`<img src="${e.brochure}">`:""}
+        ${e.brochure ? `<img src="${e.brochure}">` : ""}
       </div>`;
   });
   document.getElementById("eventContainer").innerHTML = eHTML;
 
-  // QR
+  /* ===== QR ===== */
   if(data.donationQR){
     document.getElementById("donationQR").src = data.donationQR;
   }
 
-  // Social Links
+  /* ===== SOCIAL ===== */
   let sHTML = "";
   data.socialLinks.forEach(s=>{
-    sHTML += `<div><a class="socialLink" href="${s.link}" target="_blank">${s.name}</a></div>`;
+    sHTML += `<div><a style="color:white;" href="${s.link}" target="_blank">${s.name}</a></div>`;
   });
   document.getElementById("socialContainer").innerHTML = sHTML;
+}
 
-};
-</script>
+window.onload = loadWebsiteData;
 
-<script>
+
+/* ================= APPLY INDEX SETTINGS ================= */
+
 function applyIndexSettings(settings){
   if(!settings) return;
 
@@ -190,7 +190,7 @@ function applyIndexSettings(settings){
         el.style.display = "inline-block";
       }
       el.style.background = s.boxColor;
-      el.style.borderRadius = s.radius;
+      el.style.borderRadius = s.radius + "px";
       el.style.padding = "10px 20px";
     }
   });
