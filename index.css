@@ -1,0 +1,200 @@
+/* =====================================================
+   ================== ELITE WEBSITE ====================
+   ===================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  transition: all .5s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  text-align: center;
+  padding: 160px 20px;
+}
+
+/* ================= SECTIONS ================= */
+
+.section-block {
+  padding: 140px 12%;
+  position: relative;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 60px;
+}
+
+.card {
+  padding: 50px;
+  border-radius: 30px;
+  transition: .6s cubic-bezier(.16,1,.3,1);
+}
+
+.card:hover {
+  transform: translateY(-20px) scale(1.05);
+}
+
+/* ================= WAVE ================= */
+
+.wave {
+  height: 160px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.05));
+}
+
+/* ================= REVEAL ================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 1s cubic-bezier(.16,1,.3,1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= FLOATING MENU ================= */
+
+.floating-btn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  width: 26px;
+  height: 3px;
+  background: white;
+  position: absolute;
+}
+
+.hamburger::before { transform: translateY(-8px); }
+.hamburger::after { transform: translateY(8px); }
+
+.popup-menu {
+  position: fixed;
+  top: 100px;
+  right: 25px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(20px);
+  padding: 20px;
+  border-radius: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 9998;
+}
+
+.popup-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-box {
+  background: white;
+  padding: 40px;
+  border-radius: 25px;
+}
+
+/* ================= THEME: GLASS ================= */
+
+body.theme-glass {
+  background: radial-gradient(circle at top,#1f1f2e,#0f2027 70%);
+  color: white;
+}
+
+.theme-glass .card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 40px 120px rgba(0,0,0,.6);
+}
+
+/* ================= THEME: CLEAN ================= */
+
+body.theme-clean {
+  background: #f9fafb;
+  color: #111;
+}
+
+.theme-clean .section-block {
+  background: white;
+  width: 85%;
+  margin: 100px auto;
+  border-radius: 30px;
+  box-shadow: 0 40px 100px rgba(0,0,0,.05);
+}
+
+.theme-clean .card {
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,.08);
+}
+
+/* ================= THEME: YOUTH ================= */
+
+body.theme-youth {
+  background: linear-gradient(135deg,#ff416c,#ff4b2b);
+  color: white;
+}
+
+.theme-youth .hero {
+  text-align: left;
+  padding: 180px 15%;
+}
+
+.theme-youth .card {
+  background: white;
+  color: black;
+  border-radius: 50px;
+  transform: rotate(-3deg);
+}
+
+.theme-youth .card:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+/* ================= THEME: DARK PREMIUM ================= */
+
+body.theme-dark {
+  background: #0c0c0c;
+  color: #e5e5e5;
+  font-family: Georgia, serif;
+}
+
+.theme-dark .card {
+  background: none;
+  border-bottom: 1px solid #333;
+  border-radius: 0;
+}
