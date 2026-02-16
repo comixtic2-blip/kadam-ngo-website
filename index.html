@@ -491,6 +491,19 @@ function applyTheme(theme){
   closeThemeModal();
 }
 
+function revealOnScroll(){
+  const reveals = document.querySelectorAll(".card, section h2");
+  reveals.forEach(el=>{
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      el.classList.add("reveal","active");
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
+  
 </script>
 
 </body>
