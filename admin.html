@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPass" placeholder="Enter Password">
+    <button onclick="login()"><i data-feather="log-in"></i> Login</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard hidden">
+
+<aside class="sidebar">
+  <h2 class="logo"><i data-feather="tool"></i> KADAM panel</h2>
+  <nav>
+    <a onclick="scrollToSection('indexSettings')"><i data-feather="edit"></i> Index Settings</a>
+    <a onclick="scrollToSection('hofSection')"><i data-feather="award"></i> Hall of Fame</a>
+    <a onclick="scrollToSection('eventsSection')"><i data-feather="calendar"></i> Events</a>
+    <a onclick="scrollToSection('testimonialSection')"><i data-feather="message-circle"></i> Testimonials</a>
+    <a onclick="scrollToSection('socialSection')"><i data-feather="users"></i> Social Links</a>
+    <a onclick="scrollToSection('qrSection')"><i data-feather="qr-code"></i> QR Code</a>
+    <a onclick="scrollToSection('passwordSection')"><i data-feather="lock"></i> Change Password</a>
+  </nav>
+</aside>
+
+<main class="main-content">
+
+<!-- INDEX SETTINGS -->
+<section id="indexSettings" class="section card-section">
+<h2><i data-feather="settings"></i> Index Settings</h2>
+<div class="section-content">
+  <div class="form-group">
+    <label>Section</label>
+    <select id="editSection">
+      <option value="mainTitle">Main Title</option>
+      <option value="founderLine">Founder Line</option>
+      <option value="hallHeading">Hall of Fame</option>
+      <option value="testimonialHeading">Testimonials</option>
+      <option value="eventHeading">Events</option>
+      <option value="supportHeading">Support</option>
+      <option value="connectHeading">Connect</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Text</label>
+    <input type="text" id="editText" placeholder="Edit Text">
+  </div>
+
+  <div class="form-group color-picker-wrapper">
+    <label>Color</label>
+    <input type="color" id="editColor">
+    <div class="color-preview" id="editColorPreview"></div>
+  </div>
+
+  <div class="form-group">
+    <label>Font</label>
+    <select id="editFont">
+      <option>Arial</option>
+      <option>Georgia</option>
+      <option>Verdana</option>
+      <option>Times New Roman</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Text Align</label>
+    <select id="editAlign">
+      <option value="left">Left</option>
+      <option value="center">Center</option>
+      <option value="right">Right</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label><input type="checkbox" id="editBox"> Enable Box</label>
+  </div>
+
+  <div class="form-group">
+    <label>Box Color</label>
+    <input type="color" id="editBoxColor">
+  </div>
+
+  <div class="form-group">
+    <label>Border Radius</label>
+    <select id="editRadius">
+      <option value="0px">Sharp</option>
+      <option value="15px">Rounded</option>
+      <option value="30px">More Rounded</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Scope</label>
+    <select id="editScope">
+      <option value="headline">Headline Only</option>
+      <option value="section">Full Section</option>
+    </select>
+  </div>
+
+  <button onclick="saveIndexSettings()"><i data-feather="save"></i> Save</button>
+</div>
+</section>
+
+<!-- HOF -->
+<section id="hofSection" class="section card-section">
+<h2><i data-feather="award"></i> Hall of Fame</h2>
+<div class="section-content">
+  <input type="file" id="hofUpload">
+  <button onclick="addHOF()"><i data-feather="plus"></i> Add</button>
+  <div id="hofList" class="list-cards"></div>
+</div>
+</section>
+
+<!-- EVENTS -->
+<section id="eventsSection" class="section card-section">
+<h2><i data-feather="calendar"></i> Events</h2>
+<div class="section-content">
+  <input type="text" id="eventTitle" placeholder="Title">
+  <input type="date" id="eventDate">
+  <input type="file" id="eventImageFile">
+  <input type="file" id="brochureFile">
+  <button onclick="addEvent()"><i data-feather="plus"></i> Add Event</button>
+  <div id="eventList" class="list-cards"></div>
+</div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section id="testimonialSection" class="section card-section">
+<h2><i data-feather="message-circle"></i> Testimonials</h2>
+<div class="section-content">
+  <input type="text" id="testimonialName" placeholder="Name">
+  <textarea id="testimonialText" placeholder="Message"></textarea>
+  <button onclick="addTestimonial()"><i data-feather="plus"></i> Add</button>
+  <div id="testimonialList" class="list-cards"></div>
+</div>
+</section>
+
+<!-- SOCIAL -->
+<section id="socialSection" class="section card-section">
+<h2><i data-feather="users"></i> Social Links</h2>
+<div class="section-content">
+  <input type="text" id="socialName" placeholder="Platform">
+  <input type="text" id="socialLink" placeholder="URL">
+  <button onclick="addSocialLink()"><i data-feather="plus"></i> Add</button>
+  <div id="socialList" class="list-cards"></div>
+</div>
+</section>
+
+<!-- QR -->
+<section id="qrSection" class="section card-section">
+<h2><i data-feather="qr-code"></i> QR Code</h2>
+<div class="section-content">
+  <input type="file" id="qrUpload">
+  <button onclick="saveQR()"><i data-feather="save"></i> Save QR</button>
+  <div id="qrPreview" class="list-cards"></div>
+</div>
+</section>
+
+<!-- PASSWORD -->
+<section id="passwordSection" class="section card-section">
+<h2><i data-feather="lock"></i> Change Password</h2>
+<div class="section-content">
+  <input type="password" id="newPassword" placeholder="New Password">
+  <button onclick="changePassword()"><i data-feather="refresh-cw"></i> Change</button>
+</div>
+</section>
+
+</main>
+</div>
+
+<script src="script.js"></script>
+
+<!-- Server-side index editor -->
+<textarea id="editor" style="width:100%;height:300px;">
+<!-- Load index.html content here -->
+</textarea>
+<button id="saveBtn" class="card-section"><i data-feather="save"></i> Save Changes</button>
+
+<script>
+feather.replace(); // Render icons
+
+document.getElementById('saveBtn').addEventListener('click', () => {
+    const content = document.getElementById('editor').value;
+    fetch('/update-index', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+    })
+    .then(res => res.text())
+    .then(msg => alert(msg))
+    .catch(err => alert('Error: ' + err));
+});
+</script>
+
+</body>
+</html>

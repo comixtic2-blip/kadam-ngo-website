@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kadam Foundation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      color:white;
+    }
+
+    nav{
+      display:flex;
+      justify-content:center;
+      gap:30px;
+      padding:20px;
+      background:rgba(0,0,0,0.3);
+      backdrop-filter:blur(10px);
+    }
+
+    nav a{
+      text-decoration:none;
+      font-weight:bold;
+    }
+
+    header{
+      text-align:center;
+      padding:40px 20px;
+    }
+
+    header img{
+      width:120px;
+    }
+
+    section{
+      padding:50px 20px;
+      text-align:center;
+    }
+
+    .cards{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      border-radius:20px;
+      padding:20px;
+      width:300px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    img{
+      max-width:100%;
+      border-radius:15px;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      background:rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+<nav id="mainNav">
+  <a href="index.html">Home</a>
+  <a href="apply.html">Apply</a>
+  <a href="members.html">Members</a>
+  <a href="admin.html">Admin</a>
+</nav>
+
+<header>
+  <img id="siteLogo" src="logo.png">
+  <h1 id="mainTitle">Kadam Foundation</h1>
+  <p id="founderLine">Founder: Prachi Dwivedi</p>
+</header>
+
+<section>
+  <h2 id="hallHeading">Hall of Fame</h2>
+  <div class="cards" id="hofContainer"></div>
+</section>
+
+<section>
+  <h2 id="testimonialHeading">What People Say</h2>
+  <div class="cards" id="testimonialContainer"></div>
+</section>
+
+<section>
+  <h2 id="eventHeading">Upcoming Events</h2>
+  <div class="cards" id="eventContainer"></div>
+</section>
+
+<section>
+  <h2 id="supportHeading">Support Us</h2>
+  <img id="donationQR" style="width:250px;">
+</section>
+
+<section>
+  <h2 id="connectHeading">Connect With Us</h2>
+  <div id="socialContainer"></div>
+</section>
+
+<footer>
+  © Kadam Foundation
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+window.onload=function(){
+
+  /* Apply saved index settings */
+  applyIndexSettings();
+
+  // Hall of Fame
+  let hof=JSON.parse(localStorage.getItem("hof")||"[]");
+  let hofHTML="";
+  hof.forEach(img=>{
+    hofHTML+=`<div class="card"><img src="${img}"></div>`;
+  });
+  document.getElementById("hofContainer").innerHTML=hofHTML;
+
+  // Testimonials
+  let testimonials=JSON.parse(localStorage.getItem("testimonials")||"[]");
+  let tHTML="";
+  testimonials.forEach(t=>{
+    tHTML+=`<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
+  });
+  document.getElementById("testimonialContainer").innerHTML=tHTML;
+
+  // Events
+  let events=JSON.parse(localStorage.getItem("events")||"[]");
+  let eHTML="";
+  events.forEach(e=>{
+    eHTML+=`
+      <div class="card">
+        ${e.image?`<img src="${e.image}">`:""}
+        <h3>${e.title}</h3>
+        <p>${e.date}</p>
+        ${e.brochure?`<img src="${e.brochure}">`:""}
+      </div>`;
+  });
+  document.getElementById("eventContainer").innerHTML=eHTML;
+
+  // QR
+  let qr=localStorage.getItem("donationQR");
+  if(qr){document.getElementById("donationQR").src=qr;}
+
+  // Social Links
+  let socials=JSON.parse(localStorage.getItem("socialLinks")||"[]");
+  let sHTML="";
+  socials.forEach(s=>{
+    sHTML+=`<div><a class="socialLink" href="${s.link}" target="_blank">${s.name}</a></div>`;
+  });
+  document.getElementById("socialContainer").innerHTML=sHTML;
+
+  applyIndexSettings(); // apply again after links load
+}
+</script>
+
+<script>
+function applyIndexSettings(){
+  const settings=JSON.parse(localStorage.getItem("indexSettings")||"{}");
+  Object.keys(settings).forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    const s=settings[id];
+    if(s.text) el.innerText=s.text;
+    el.style.color=s.color;
+    el.style.fontFamily=s.font;
+    el.style.textAlign=s.align;
+
+    el.style.background="transparent";
+    el.style.borderRadius="0";
+
+    if(s.box){
+      if(s.scope==="headline"){
+        el.style.display="inline-block";
+      }
+      el.style.background=s.boxColor;
+      el.style.borderRadius=s.radius;
+      el.style.padding="10px 20px";
+    }
+  });
+}
+</script>
+
+</body>
+</html>
