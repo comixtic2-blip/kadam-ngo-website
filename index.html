@@ -100,27 +100,58 @@
       background:rgba(0,0,0,0.4);
     }
 
-    /* ================= FLOATING MENU ================= */
+    /* ================= FLOATING BUTTON ================= */
 
     .floating-btn{
       position:fixed;
       bottom:20px;
       right:20px;
-      width:50px;
-      height:50px;
+      width:55px;
+      height:55px;
       border-radius:50%;
       border:none;
-      font-size:22px;
       cursor:pointer;
       background:rgba(255,255,255,0.2);
       backdrop-filter:blur(10px);
-      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       z-index:9999;
     }
 
+    /* Hamburger lines */
+    .hamburger{
+      width:25px;
+      height:3px;
+      background:white;
+      position:relative;
+      border-radius:2px;
+    }
+
+    .hamburger::before,
+    .hamburger::after{
+      content:"";
+      position:absolute;
+      width:25px;
+      height:3px;
+      background:white;
+      border-radius:2px;
+      left:0;
+    }
+
+    .hamburger::before{
+      top:-8px;
+    }
+
+    .hamburger::after{
+      top:8px;
+    }
+
+    /* ================= POPUP ================= */
+
     .popup-menu{
       position:fixed;
-      bottom:80px;
+      bottom:85px;
       right:20px;
       background:rgba(255,255,255,0.15);
       backdrop-filter:blur(20px);
@@ -128,12 +159,12 @@
       padding:10px;
       display:none;
       z-index:9999;
-      min-width:150px;
+      min-width:160px;
     }
 
     .popup-menu button{
       width:100%;
-      padding:8px;
+      padding:10px;
       border:none;
       background:none;
       color:inherit;
@@ -232,13 +263,14 @@
 </footer>
 
 <!-- FLOATING BUTTON -->
-<button class="floating-btn" onclick="togglePopup()">☰</button>
+<button class="floating-btn" onclick="togglePopup()">
+  <div class="hamburger"></div>
+</button>
 
 <div class="popup-menu" id="popupMenu">
   <button onclick="openThemeModal()">🎨 Change Theme</button>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="themeModal">
   <div class="modal-box">
     <h3>Select Theme</h3>
@@ -251,13 +283,11 @@
   </div>
 </div>
 
-<!-- ================= MAIN SCRIPT ================= -->
 <script>
 
 async function loadWebsiteData(){
   const res = await fetch("/data");
   const data = await res.json();
-
   applyIndexSettings(data.indexSettings);
 
   let hofHTML = "";
@@ -300,37 +330,7 @@ window.onload = function(){
   loadSavedTheme();
 };
 
-/* ================= INDEX SETTINGS ================= */
-
-function applyIndexSettings(settings){
-  if(!settings) return;
-
-  Object.keys(settings).forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-
-    const s = settings[id];
-
-    if(s.text) el.innerText = s.text;
-    el.style.color = s.color;
-    el.style.fontFamily = s.font;
-    el.style.textAlign = s.align;
-
-    el.style.background = "transparent";
-    el.style.borderRadius = "0";
-
-    if(s.box){
-      if(s.scope === "headline"){
-        el.style.display = "inline-block";
-      }
-      el.style.background = s.boxColor;
-      el.style.borderRadius = s.radius + "px";
-      el.style.padding = "10px 20px";
-    }
-  });
-}
-
-/* ================= FLOATING MENU FUNCTIONS ================= */
+/* ================= THEME FUNCTIONS ================= */
 
 function togglePopup(){
   const menu = document.getElementById("popupMenu");
@@ -354,11 +354,32 @@ function applyTheme(theme){
 
 function loadSavedTheme(){
   const saved = localStorage.getItem("selectedTheme");
-  if(saved){
-    document.body.className = saved;
-  } else {
-    document.body.className = "theme-glass";
-  }
+  document.body.className = saved ? saved : "theme-glass";
+}
+
+/* ================= INDEX SETTINGS ================= */
+
+function applyIndexSettings(settings){
+  if(!settings) return;
+  Object.keys(settings).forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const s = settings[id];
+    if(s.text) el.innerText = s.text;
+    el.style.color = s.color;
+    el.style.fontFamily = s.font;
+    el.style.textAlign = s.align;
+    el.style.background = "transparent";
+    el.style.borderRadius = "0";
+    if(s.box){
+      if(s.scope === "headline"){
+        el.style.display = "inline-block";
+      }
+      el.style.background = s.boxColor;
+      el.style.borderRadius = s.radius + "px";
+      el.style.padding = "10px 20px";
+    }
+  });
 }
 
 </script>
