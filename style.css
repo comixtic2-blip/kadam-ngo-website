@@ -343,5 +343,21 @@ body.dark h1,h2,h3,h4,h5,h6 {
     to { opacity: 1; }
 }
 
+/* ================= FRONTEND THEME SUPPORT ================= */
 
+body.theme-glass {}
+
+body.theme-clean{
+    background:#f5f7fa !important;
+    color:#111 !important;
+}
+
+body.theme-youth{
+    background:linear-gradient(135deg,#ff512f,#dd2476,#24c6dc) !important;
+}
+
+body.theme-dark{
+    background:#0b0f19 !important;
+    color:#f1f1f1 !important;
+}
 
