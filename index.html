@@ -4,392 +4,46 @@
   <title>Kadam Foundation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    
-/* ================= ELITE BASE SYSTEM ================= */
-
-html{
-  scroll-behavior:smooth;
-}
-
-section{
-  position:relative;
-  overflow:hidden;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:50px;
-}
-
-.card{
-  position:relative;
-  padding:35px;
-  border-radius:30px;
-  transition:all .6s cubic-bezier(.16,1,.3,1);
-  transform-style:preserve-3d;
-  will-change:transform;
-}
-
-.card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.2),transparent);
-  opacity:0;
-  transition:.6s;
-}
-
-.card:hover::after{
-  opacity:1;
-}
-
-.card:hover{
-  transform:translateY(-20px) scale(1.04);
-}
-
-/* Scroll Reveal */
-.reveal{
-  opacity:0;
-  transform:translateY(60px);
-  transition:1s cubic-bezier(.16,1,.3,1);
-}
-
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.theme-glass{
-  background:radial-gradient(circle at top left,#1f1f2e,#0f2027 70%);
-  color:white;
-}
-
-.theme-glass header{
-  padding:150px 20px;
-  text-align:center;
-  position:relative;
-}
-
-.theme-glass header::before{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle,#00c6ff,transparent 70%);
-  filter:blur(150px);
-  top:-150px;
-  left:50%;
-  transform:translateX(-50%);
-  opacity:.4;
-}
-
-.theme-glass .card{
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(40px);
-  box-shadow:
-    0 60px 120px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.1);
-}
-
-.theme-youth{
-  background:linear-gradient(135deg,#ff416c,#ff4b2b);
-  color:white;
-}
-
-.theme-youth header{
-  padding:160px 10%;
-  text-align:left;
-}
-
-.theme-youth header h1{
-  font-size:80px;
-  font-weight:900;
-  line-height:1;
-}
-
-.theme-youth .card{
-  background:white;
-  color:black;
-  border-radius:50px;
-  transform:rotate(-3deg);
-  box-shadow:0 40px 100px rgba(0,0,0,.4);
-}
-
-.theme-youth .card:nth-child(even){
-  transform:rotate(3deg);
-}
-
-.theme-youth .card:hover{
-  transform:rotate(0deg) scale(1.12);
-}
-
-.theme-clean{
-  background:#f9fafb;
-  color:#111;
-}
-
-.theme-clean section{
-  padding:100px 12%;
-  background:white;
-  margin:100px auto;
-  width:85%;
-  border-radius:20px;
-  box-shadow:0 40px 100px rgba(0,0,0,.05);
-}
-
-.theme-clean .card{
-  border-radius:20px;
-  background:#ffffff;
-  box-shadow:0 20px 60px rgba(0,0,0,.08);
-}
-
-.theme-dark{
-  background:#0c0c0c;
-  color:#e5e5e5;
-}
-
-.theme-dark header{
-  padding:180px 15%;
-  text-align:center;
-  border-bottom:1px solid #222;
-}
-
-.theme-dark section{
-  padding:150px 22%;
-  position:relative;
-}
-
-.theme-dark section::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:30%;
-  width:40%;
-  height:1px;
-  background:linear-gradient(to right,transparent,#444,transparent);
-}
-
-.theme-dark .card{
-  background:none;
-  border:none;
-  border-bottom:1px solid #333;
-  padding:50px 0;
-}
-
-.wave{
-  height:120px;
-  background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.05));
-  mask-image: radial-gradient(circle at 50% -20px, transparent 120px, black 121px);
-}
-
-        
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:white;
-      transition: all 0.4s ease;
-    }
-
-    header{
-      text-align:center;
-      padding:60px 20px 40px 20px;
-    }
-
-    header img{
-      width:120px;
-    }
-
-    section{
-      padding:50px 20px;
-      text-align:center;
-    }
-
-    .cards{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:20px;
-    }
-
-    .card{
-      background:rgba(255,255,255,0.12);
-      backdrop-filter:blur(18px);
-      border-radius:20px;
-      padding:20px;
-      width:300px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.3);
-      transition:0.3s;
-    }
-
-    img{
-      max-width:100%;
-      border-radius:15px;
-    }
-
-    footer{
-      text-align:center;
-      padding:30px;
-      background:rgba(0,0,0,0.4);
-    }
-
-    /* ================= FLOATING BUTTON ================= */
-
-    .floating-btn{
-      position:fixed;
-      top:20px;
-      right:20px;
-      width:55px;
-      height:55px;
-      border-radius:50%;
-      border:none;
-      cursor:pointer;
-      background:rgba(255,255,255,0.2);
-      backdrop-filter:blur(10px);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      z-index:9999;
-    }
-
-    .hamburger{
-      width:25px;
-      height:3px;
-      background:white;
-      position:relative;
-      border-radius:2px;
-    }
-
-    .hamburger::before,
-    .hamburger::after{
-      content:"";
-      position:absolute;
-      width:25px;
-      height:3px;
-      background:white;
-      border-radius:2px;
-      left:0;
-    }
-
-    .hamburger::before{ top:-8px; }
-    .hamburger::after{ top:8px; }
-
-    /* ================= POPUP ================= */
-
-    .popup-menu{
-      position:fixed;
-      top:85px;
-      right:20px;
-      background:rgba(255,255,255,0.15);
-      backdrop-filter:blur(20px);
-      border-radius:15px;
-      padding:15px;
-      display:none;
-      z-index:9999;
-      min-width:180px;
-    }
-
-    .popup-menu a,
-    .popup-menu button{
-      display:block;
-      width:100%;
-      padding:10px;
-      border:none;
-      background:none;
-      color:inherit;
-      text-align:left;
-      text-decoration:none;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .popup-menu a:hover,
-    .popup-menu button:hover{
-      background:rgba(255,255,255,0.2);
-      border-radius:10px;
-    }
-
-    /* ================= MODAL ================= */
-
-    .modal-overlay{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.6);
-      display:none;
-      justify-content:center;
-      align-items:center;
-      z-index:10000;
-    }
-
-    .modal-box{
-      background:rgba(255,255,255,0.15);
-      backdrop-filter:blur(20px);
-      padding:30px;
-      border-radius:20px;
-      text-align:center;
-      min-width:300px;
-    }
-
-    .modal-box button{
-      margin:8px;
-      padding:10px 15px;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-    }
-
-    .close-btn{
-      margin-top:15px;
-      background:#ff4d4d;
-      color:white;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="theme-glass">
 
-<header>
+<header class="hero">
   <img id="siteLogo" src="logo.png">
   <h1 id="mainTitle">Kadam Foundation</h1>
   <p id="founderLine">Founder: Prachi Dwivedi</p>
 </header>
 
-<section>
+<section class="section-block">
   <h2 id="hallHeading">Hall of Fame</h2>
   <div class="cards" id="hofContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section>
+<section class="section-block">
   <h2 id="testimonialHeading">What People Say</h2>
   <div class="cards" id="testimonialContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section>
+<section class="section-block">
   <h2 id="eventHeading">Upcoming Events</h2>
   <div class="cards" id="eventContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section>
+<section class="section-block">
   <h2 id="supportHeading">Support Us</h2>
   <img id="donationQR" style="width:250px;">
 </section>
 
 <div class="wave"></div>
 
-<section>
+<section class="section-block">
   <h2 id="connectHeading">Connect With Us</h2>
   <div id="socialContainer"></div>
 </section>
@@ -398,22 +52,21 @@ section{
   © Kadam Foundation
 </footer>
 
-<!-- FLOATING MENU BUTTON -->
+<!-- Floating Menu -->
 <button class="floating-btn" onclick="togglePopup()">
   <div class="hamburger"></div>
 </button>
 
-<!-- POPUP MENU -->
 <div class="popup-menu" id="popupMenu">
   <a href="index.html">Home</a>
   <a href="apply.html">Apply</a>
   <a href="members.html">Members</a>
   <a href="admin.html">Admin</a>
-  <hr style="border:1px solid rgba(255,255,255,0.2);">
+  <hr>
   <button onclick="openThemeModal()">🎨 Change Theme</button>
 </div>
 
-<!-- THEME MODAL -->
+<!-- Theme Modal -->
 <div class="modal-overlay" id="themeModal">
   <div class="modal-box">
     <h3>Select Theme</h3>
@@ -426,50 +79,54 @@ section{
   </div>
 </div>
 
+<script src="script.js"></script>
+
 <script>
+/* ================= LOAD SITE DATA ================= */
 
 async function loadWebsiteData(){
   const res = await fetch("/data");
   const data = await res.json();
 
-  let hofHTML = "";
-  data.hof.forEach(img=>{
-    hofHTML += `<div class="card"><img src="${img}"></div>`;
-  });
-  document.getElementById("hofContainer").innerHTML = hofHTML;
+  document.getElementById("hofContainer").innerHTML =
+    data.hof.map(img=>`<div class="card reveal"><img src="${img}"></div>`).join("");
 
-  let tHTML = "";
-  data.testimonials.forEach(t=>{
-    tHTML += `<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
-  });
-  document.getElementById("testimonialContainer").innerHTML = tHTML;
+  document.getElementById("testimonialContainer").innerHTML =
+    data.testimonials.map(t=>`
+      <div class="card reveal">
+        <h3>${t.name}</h3>
+        <p>${t.text}</p>
+      </div>`).join("");
 
-  let eHTML = "";
-  data.events.forEach(e=>{
-    eHTML += `
-      <div class="card">
+  document.getElementById("eventContainer").innerHTML =
+    data.events.map(e=>`
+      <div class="card reveal">
         ${e.image ? `<img src="${e.image}">` : ""}
         <h3>${e.title}</h3>
         <p>${e.date}</p>
         ${e.brochure ? `<img src="${e.brochure}">` : ""}
-      </div>`;
-  });
-  document.getElementById("eventContainer").innerHTML = eHTML;
+      </div>`).join("");
 
   if(data.donationQR){
     document.getElementById("donationQR").src = data.donationQR;
   }
 
-  let sHTML = "";
-  data.socialLinks.forEach(s=>{
-    sHTML += `<div><a style="color:inherit;" href="${s.link}" target="_blank">${s.name}</a></div>`;
-  });
-  document.getElementById("socialContainer").innerHTML = sHTML;
+  document.getElementById("socialContainer").innerHTML =
+    data.socialLinks.map(s=>
+      `<div><a href="${s.link}" target="_blank">${s.name}</a></div>`
+    ).join("");
 }
 
-window.onload = loadWebsiteData;
+window.addEventListener("load", ()=>{
+  loadWebsiteData();
 
-/* ================= MENU FUNCTIONS ================= */
+  const savedTheme = localStorage.getItem("selectedTheme");
+  if(savedTheme){
+    document.body.className = savedTheme;
+  }
+});
+
+/* ================= MENU ================= */
 
 function togglePopup(){
   const menu = document.getElementById("popupMenu");
@@ -491,19 +148,19 @@ function applyTheme(theme){
   closeThemeModal();
 }
 
+/* ================= REVEAL ================= */
+
 function revealOnScroll(){
-  const reveals = document.querySelectorAll(".card, section h2");
-  reveals.forEach(el=>{
+  document.querySelectorAll(".reveal").forEach(el=>{
     const top = el.getBoundingClientRect().top;
     if(top < window.innerHeight - 100){
-      el.classList.add("reveal","active");
+      el.classList.add("active");
     }
   });
 }
 
 window.addEventListener("scroll", revealOnScroll);
 window.addEventListener("load", revealOnScroll);
-  
 </script>
 
 </body>
