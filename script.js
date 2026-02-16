@@ -269,38 +269,5 @@ window.addEventListener('load', () => {
     showSection('indexSettings');
 });
 
-<script>
-const menuBtn = document.getElementById("menuBtn");
-const settingsPopup = document.getElementById("settingsPopup");
-const themeModal = document.getElementById("themeModal");
 
-/* MENU TOGGLE */
-menuBtn.onclick = () => {
-  settingsPopup.classList.toggle("hidden");
-};
-
-/* OPEN THEME SELECTOR */
-function openThemeSelector(){
-  settingsPopup.classList.add("hidden");
-  themeModal.classList.remove("hidden");
-}
-
-/* CLOSE THEME */
-function closeTheme(){
-  themeModal.classList.add("hidden");
-}
-
-/* APPLY THEME */
-function setTheme(theme){
-  document.body.className = theme;
-  localStorage.setItem("siteTheme", theme);
-  closeTheme();
-}
-
-/* LOAD SAVED THEME */
-window.addEventListener("load", () => {
-  const saved = localStorage.getItem("siteTheme") || "glass";
-  document.body.className = saved;
-});
-</script>
 
