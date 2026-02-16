@@ -83,7 +83,6 @@ app.listen(port, '0.0.0.0', () => {
     console.log("Server running on port " + port);
 });
 
-const fs = require("fs");
 const DATA_FILE = "data.json";
 
 /* ===== READ DATA ===== */
