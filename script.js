@@ -7,8 +7,7 @@ let siteData = {
     events: [],
     testimonials: [],
     socialLinks: [],
-    donationQR: "",
-    indexSettings: {}
+    donationQR: ""
 };
 
 /* ================= SERVER HELPERS ================= */
@@ -76,25 +75,6 @@ async function loadAll() {
     loadTestimonials();
     loadSocialLinks();
     loadQRPreview();
-}
-
-/* ================= INDEX SETTINGS ================= */
-async function saveIndexSettings() {
-    const id = document.getElementById("editSection").value;
-
-    siteData.indexSettings[id] = {
-        text: document.getElementById("editText").value,
-        color: document.getElementById("editColor").value,
-        font: document.getElementById("editFont").value,
-        align: document.getElementById("editAlign").value,
-        box: document.getElementById("editBox").checked,
-        boxColor: document.getElementById("editBoxColor").value + "33",
-        radius: document.getElementById("editRadius").value,
-        scope: document.getElementById("editScope").value
-    };
-
-    await saveToServer();
-    alert("Saved");
 }
 
 /* ================= HOF ================= */
@@ -243,31 +223,14 @@ function loadQRPreview() {
     if (el && qr) el.innerHTML = `<img src="${qr}" width="120">`;
 }
 
-/* ================= NAVIGATION ================= */
-window.addEventListener('load', () => {
-
-    const sections = document.querySelectorAll('.section');
-
-    function showSection(id) {
-        sections.forEach(sec => {
-            sec.classList.toggle('active', sec.id === id);
-        });
-
-        document.querySelector('.main-content').scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-
-    document.querySelectorAll('.sidebar nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            const targetId = link.getAttribute('onclick').match(/'(\w+)'/)[1];
-            showSection(targetId);
-        });
+/* ================= SECTION NAVIGATION ================= */
+function scrollToSection(id){
+    document.querySelectorAll('.section').forEach(sec=>{
+        sec.classList.remove('active');
     });
+    document.getElementById(id).classList.add('active');
+}
 
-    showSection('indexSettings');
+window.addEventListener('load', () => {
+    scrollToSection('hofSection');
 });
-
-
-
