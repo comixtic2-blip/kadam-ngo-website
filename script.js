@@ -11,12 +11,18 @@ let siteData = {
     indexSettings: {}
 };
 
-function saveToServer() {
-    fetch("/data", {
+/* ================= SERVER HELPERS ================= */
+async function saveToServer() {
+    await fetch("/data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(siteData)
     });
+}
+
+async function loadFromServer() {
+    const res = await fetch("/data");
+    siteData = await res.json();
 }
 
 /* ================= LOGIN ================= */
@@ -62,55 +68,49 @@ function changePassword() {
     .then(data => alert(data.success ? "Password Updated" : "Failed"));
 }
 
-/* ================= LOAD ALL FROM SERVER ================= */
-function loadAll() {
-    fetch("/data")
-        .then(res => res.json())
-        .then(data => {
-            siteData = data;
-
-            loadHOF();
-            loadEvents();
-            loadTestimonials();
-            loadSocialLinks();
-            loadQRPreview();
-        });
+/* ================= LOAD ALL ================= */
+async function loadAll() {
+    await loadFromServer();
+    loadHOF();
+    loadEvents();
+    loadTestimonials();
+    loadSocialLinks();
+    loadQRPreview();
 }
 
 /* ================= INDEX SETTINGS ================= */
-function saveIndexSettings() {
+async function saveIndexSettings() {
     const id = document.getElementById("editSection").value;
 
     siteData.indexSettings[id] = {
-        text: editText.value,
-        color: editColor.value,
-        font: editFont.value,
-        align: editAlign.value,
-        box: editBox.checked,
-        boxColor: editBoxColor.value + "33",
-        radius: editRadius.value,
-        scope: editScope.value
+        text: document.getElementById("editText").value,
+        color: document.getElementById("editColor").value,
+        font: document.getElementById("editFont").value,
+        align: document.getElementById("editAlign").value,
+        box: document.getElementById("editBox").checked,
+        boxColor: document.getElementById("editBoxColor").value + "33",
+        radius: document.getElementById("editRadius").value,
+        scope: document.getElementById("editScope").value
     };
 
-    saveToServer();
+    await saveToServer();
     alert("Saved");
 }
 
 /* ================= HOF ================= */
-function addHOF() {
+async function addHOF() {
     const file = document.getElementById("hofUpload").files[0];
     if (!file) return;
 
     const formData = new FormData();
     formData.append("image", file);
 
-    fetch("/upload-image", { method: "POST", body: formData })
-    .then(res => res.json())
-    .then(data => {
-        siteData.hof.push(data.path);
-        saveToServer();
-        loadHOF();
-    });
+    const res = await fetch("/upload-image", { method: "POST", body: formData });
+    const data = await res.json();
+
+    siteData.hof.push(data.path);
+    await saveToServer();
+    loadHOF();
 }
 
 function loadHOF() {
@@ -119,33 +119,34 @@ function loadHOF() {
         html += `<div><img src="${img}" width="150"><button onclick="deleteHOF(${i})">Delete</button></div>`;
     });
 
-    if (hofList) hofList.innerHTML = html;
+    const el = document.getElementById("hofList");
+    if (el) el.innerHTML = html;
 }
 
-function deleteHOF(i) {
+async function deleteHOF(i) {
     siteData.hof.splice(i, 1);
-    saveToServer();
+    await saveToServer();
     loadHOF();
 }
 
 /* ================= EVENTS ================= */
-function addEvent() {
-    const title = eventTitle.value;
-    const date = eventDate.value;
-    const imgFile = eventImageFile.files[0];
-    const broFile = brochureFile.files[0];
+async function addEvent() {
+    const title = document.getElementById("eventTitle").value;
+    const date = document.getElementById("eventDate").value;
+    const imgFile = document.getElementById("eventImageFile").files[0];
+    const broFile = document.getElementById("brochureFile").files[0];
 
     const reader1 = new FileReader();
     reader1.onload = e1 => {
         const reader2 = new FileReader();
-        reader2.onload = e2 => {
+        reader2.onload = async e2 => {
             siteData.events.push({
                 title,
                 date,
                 image: e1.target.result,
                 brochure: e2.target.result
             });
-            saveToServer();
+            await saveToServer();
             loadEvents();
         };
         broFile ? reader2.readAsDataURL(broFile) : reader2.onload({ target: { result: "" } });
@@ -158,23 +159,24 @@ function loadEvents() {
     siteData.events.forEach((e, i) => {
         html += `<div>${e.title} (${e.date}) <button onclick="deleteEvent(${i})">Delete</button></div>`;
     });
-    if (eventList) eventList.innerHTML = html;
+    const el = document.getElementById("eventList");
+    if (el) el.innerHTML = html;
 }
 
-function deleteEvent(i) {
+async function deleteEvent(i) {
     siteData.events.splice(i, 1);
-    saveToServer();
+    await saveToServer();
     loadEvents();
 }
 
 /* ================= TESTIMONIALS ================= */
-function addTestimonial() {
-    const name = testimonialName.value;
-    const text = testimonialText.value;
+async function addTestimonial() {
+    const name = document.getElementById("testimonialName").value;
+    const text = document.getElementById("testimonialText").value;
     if (!name || !text) return;
 
     siteData.testimonials.push({ name, text });
-    saveToServer();
+    await saveToServer();
     loadTestimonials();
 }
 
@@ -183,23 +185,24 @@ function loadTestimonials() {
     siteData.testimonials.forEach((t, i) => {
         html += `<div>${t.name}<button onclick="deleteTestimonial(${i})">Delete</button></div>`;
     });
-    if (testimonialList) testimonialList.innerHTML = html;
+    const el = document.getElementById("testimonialList");
+    if (el) el.innerHTML = html;
 }
 
-function deleteTestimonial(i) {
+async function deleteTestimonial(i) {
     siteData.testimonials.splice(i, 1);
-    saveToServer();
+    await saveToServer();
     loadTestimonials();
 }
 
 /* ================= SOCIAL ================= */
-function addSocialLink() {
-    const name = socialName.value;
-    const link = socialLink.value;
+async function addSocialLink() {
+    const name = document.getElementById("socialName").value;
+    const link = document.getElementById("socialLink").value;
     if (!name || !link) return;
 
     siteData.socialLinks.push({ name, link });
-    saveToServer();
+    await saveToServer();
     loadSocialLinks();
 }
 
@@ -208,48 +211,46 @@ function loadSocialLinks() {
     siteData.socialLinks.forEach((s, i) => {
         html += `<div>${s.name}<button onclick="deleteSocial(${i})">Delete</button></div>`;
     });
-    if (socialList) socialList.innerHTML = html;
+    const el = document.getElementById("socialList");
+    if (el) el.innerHTML = html;
 }
 
-function deleteSocial(i) {
+async function deleteSocial(i) {
     siteData.socialLinks.splice(i, 1);
-    saveToServer();
+    await saveToServer();
     loadSocialLinks();
 }
 
 /* ================= QR ================= */
-function saveQR() {
-    const file = qrUpload.files[0];
+async function saveQR() {
+    const file = document.getElementById("qrUpload").files[0];
     if (!file) return;
 
     const formData = new FormData();
     formData.append("image", file);
 
-    fetch("/upload-image", { method: "POST", body: formData })
-    .then(res => res.json())
-    .then(data => {
-        siteData.donationQR = data.path;
-        saveToServer();
-        loadQRPreview();
-    });
+    const res = await fetch("/upload-image", { method: "POST", body: formData });
+    const data = await res.json();
+
+    siteData.donationQR = data.path;
+    await saveToServer();
+    loadQRPreview();
 }
 
 function loadQRPreview() {
     const qr = siteData.donationQR;
-    if (qrPreview && qr) qrPreview.innerHTML = `<img src="${qr}" width="120">`;
+    const el = document.getElementById("qrPreview");
+    if (el && qr) el.innerHTML = `<img src="${qr}" width="120">`;
 }
 
 /* ================= NAVIGATION ================= */
-/* ================= SECTION NAVIGATION ================= */
-
 window.addEventListener('load', () => {
 
     const sections = document.querySelectorAll('.section');
 
     function showSection(id) {
         sections.forEach(sec => {
-            if (sec.id === id) sec.classList.add('active');
-            else sec.classList.remove('active');
+            sec.classList.toggle('active', sec.id === id);
         });
 
         document.querySelector('.main-content').scrollTo({
