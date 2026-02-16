@@ -5,36 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:white;
-      transition: all 0.4s ease;
-    }
+/* ================= THEME: GLASS ================= */
 
-    /* ================= THEMES ================= */
+body.theme-glass{
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+}
 
-    body.theme-glass{
-      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:white;
-    }
+body.theme-glass .card{
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
 
-    body.theme-clean{
-      background:#f5f7fa;
-      color:#111;
-    }
+body.theme-glass nav{
+  background:rgba(0,0,0,0.3);
+  backdrop-filter:blur(12px);
+}
 
-    body.theme-youth{
-      background:linear-gradient(135deg,#ff512f,#dd2476,#24c6dc);
-      color:white;
-    }
 
-    body.theme-dark{
-      background:#0b0f19;
-      color:#f1f1f1;
-    }
+/* ================= THEME: CLEAN ================= */
 
+body.theme-clean{
+  background:#f8fafc;
+  color:#111;
+}
+
+body.theme-clean nav{
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+body.theme-clean nav a{
+  color:#111;
+}
+
+body.theme-clean .card{
+  background:white;
+  color:#111;
+  border-radius:8px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+body.theme-clean section{
+  padding:40px 20px;
+}
+
+
+/* ================= THEME: YOUTH ================= */
+
+body.theme-youth{
+  background:linear-gradient(135deg,#ff512f,#dd2476,#24c6dc);
+  color:white;
+}
+
+body.theme-youth nav{
+  background:rgba(255,255,255,0.15);
+}
+
+body.theme-youth .card{
+  background:rgba(255,255,255,0.25);
+  border-radius:30px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  transition:all 0.3s ease;
+}
+
+body.theme-youth .card:hover{
+  transform:scale(1.05);
+}
+
+body.theme-youth h2{
+  font-size:32px;
+  letter-spacing:2px;
+}
+
+
+/* ================= THEME: DARK PREMIUM ================= */
+
+body.theme-dark{
+  background:#0b0f19;
+  color:#f5f5f5;
+  font-family:Georgia, serif;
+}
+
+body.theme-dark nav{
+  background:#111827;
+  border-bottom:1px solid #333;
+}
+
+body.theme-dark nav a{
+  color:#d4af37; /* gold accent */
+}
+
+body.theme-dark .card{
+  background:#1a1f2e;
+  border-radius:10px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+  border:1px solid #333;
+}
+
+body.theme-dark h2{
+  color:#d4af37;
+}
+    
     nav{
       display:flex;
       justify-content:center;
