@@ -1,58 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Kadam Foundation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Elite Public Styles -->
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body class="theme-glass">
 
-<header class="hero">
-  <img id="siteLogo" src="logo.png">
+<header class="hero reveal">
+  <img id="siteLogo" src="logo.png" style="width:120px;">
   <h1 id="mainTitle">Kadam Foundation</h1>
   <p id="founderLine">Founder: Prachi Dwivedi</p>
 </header>
 
-<section class="section-block">
+<section class="section-block reveal">
   <h2 id="hallHeading">Hall of Fame</h2>
   <div class="cards" id="hofContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section class="section-block">
+<section class="section-block reveal">
   <h2 id="testimonialHeading">What People Say</h2>
   <div class="cards" id="testimonialContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section class="section-block">
+<section class="section-block reveal">
   <h2 id="eventHeading">Upcoming Events</h2>
   <div class="cards" id="eventContainer"></div>
 </section>
 
 <div class="wave"></div>
 
-<section class="section-block">
+<section class="section-block reveal">
   <h2 id="supportHeading">Support Us</h2>
   <img id="donationQR" style="width:250px;">
 </section>
 
 <div class="wave"></div>
 
-<section class="section-block">
+<section class="section-block reveal">
   <h2 id="connectHeading">Connect With Us</h2>
   <div id="socialContainer"></div>
 </section>
 
-<footer>
+<footer style="text-align:center;padding:40px 20px;">
   © Kadam Foundation
 </footer>
 
-<!-- Floating Menu -->
+<!-- ================= FLOATING MENU ================= -->
+
 <button class="floating-btn" onclick="togglePopup()">
   <div class="hamburger"></div>
 </button>
@@ -62,11 +68,12 @@
   <a href="apply.html">Apply</a>
   <a href="members.html">Members</a>
   <a href="admin.html">Admin</a>
-  <hr>
+  <hr style="border:1px solid rgba(255,255,255,0.2);margin:10px 0;">
   <button onclick="openThemeModal()">🎨 Change Theme</button>
 </div>
 
-<!-- Theme Modal -->
+<!-- ================= THEME MODAL ================= -->
+
 <div class="modal-overlay" id="themeModal">
   <div class="modal-box">
     <h3>Select Theme</h3>
@@ -74,68 +81,96 @@
     <button onclick="applyTheme('theme-clean')">Clean</button>
     <button onclick="applyTheme('theme-youth')">Youth</button>
     <button onclick="applyTheme('theme-dark')">Dark Premium</button>
-    <br>
+    <br><br>
     <button class="close-btn" onclick="closeThemeModal()">Close</button>
   </div>
 </div>
 
-
-
 <script>
-/* ================= LOAD SITE DATA ================= */
+
+/* ================= LOAD DATA ================= */
 
 async function loadWebsiteData(){
   const res = await fetch("/data");
   const data = await res.json();
 
-  document.getElementById("hofContainer").innerHTML =
-    data.hof.map(img=>`<div class="card reveal"><img src="${img}"></div>`).join("");
+  // Hall of Fame
+  let hofHTML = "";
+  data.hof.forEach(img=>{
+    hofHTML += `<div class="card reveal"><img src="${img}"></div>`;
+  });
+  document.getElementById("hofContainer").innerHTML = hofHTML;
 
-  document.getElementById("testimonialContainer").innerHTML =
-    data.testimonials.map(t=>`
-      <div class="card reveal">
-        <h3>${t.name}</h3>
-        <p>${t.text}</p>
-      </div>`).join("");
+  // Testimonials
+  let tHTML = "";
+  data.testimonials.forEach(t=>{
+    tHTML += `<div class="card reveal"><h3>${t.name}</h3><p>${t.text}</p></div>`;
+  });
+  document.getElementById("testimonialContainer").innerHTML = tHTML;
 
-  document.getElementById("eventContainer").innerHTML =
-    data.events.map(e=>`
+  // Events
+  let eHTML = "";
+  data.events.forEach(e=>{
+    eHTML += `
       <div class="card reveal">
         ${e.image ? `<img src="${e.image}">` : ""}
         <h3>${e.title}</h3>
         <p>${e.date}</p>
         ${e.brochure ? `<img src="${e.brochure}">` : ""}
-      </div>`).join("");
+      </div>`;
+  });
+  document.getElementById("eventContainer").innerHTML = eHTML;
 
+  // Donation QR
   if(data.donationQR){
     document.getElementById("donationQR").src = data.donationQR;
   }
 
-  document.getElementById("socialContainer").innerHTML =
-    data.socialLinks.map(s=>
-      `<div><a href="${s.link}" target="_blank">${s.name}</a></div>`
-    ).join("");
+  // Social Links
+  let sHTML = "";
+  data.socialLinks.forEach(s=>{
+    sHTML += `<div><a style="color:inherit;" href="${s.link}" target="_blank">${s.name}</a></div>`;
+  });
+  document.getElementById("socialContainer").innerHTML = sHTML;
+
+  revealOnScroll();
 }
 
-window.addEventListener("load", ()=>{
+window.onload = function(){
   loadWebsiteData();
 
   const savedTheme = localStorage.getItem("selectedTheme");
   if(savedTheme){
     document.body.className = savedTheme;
   }
-});
 
-/* ================= MENU ================= */
+  revealOnScroll();
+};
+
+/* ================= REVEAL ================= */
+
+function revealOnScroll(){
+  const reveals = document.querySelectorAll(".reveal");
+  reveals.forEach(el=>{
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){
+      el.classList.add("active");
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+
+/* ================= MENU FUNCTIONS ================= */
 
 function togglePopup(){
   const menu = document.getElementById("popupMenu");
-  menu.style.display = menu.style.display === "block" ? "none" : "block";
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
 }
 
 function openThemeModal(){
   document.getElementById("themeModal").style.display = "flex";
-  togglePopup();
+  document.getElementById("popupMenu").style.display = "none";
 }
 
 function closeThemeModal(){
@@ -148,19 +183,6 @@ function applyTheme(theme){
   closeThemeModal();
 }
 
-/* ================= REVEAL ================= */
-
-function revealOnScroll(){
-  document.querySelectorAll(".reveal").forEach(el=>{
-    const top = el.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){
-      el.classList.add("active");
-    }
-  });
-}
-
-window.addEventListener("scroll", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
 </script>
 
 </body>
