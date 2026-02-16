@@ -3,7 +3,71 @@
 <head>
   <title>Kadam Foundation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      color:white;
+    }
+
+    nav{
+      display:flex;
+      justify-content:center;
+      gap:30px;
+      padding:20px;
+      background:rgba(0,0,0,0.3);
+      backdrop-filter:blur(10px);
+    }
+
+    nav a{
+      text-decoration:none;
+      font-weight:bold;
+      color:white;
+    }
+
+    header{
+      text-align:center;
+      padding:40px 20px;
+    }
+
+    header img{
+      width:120px;
+    }
+
+    section{
+      padding:50px 20px;
+      text-align:center;
+    }
+
+    .cards{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      border-radius:20px;
+      padding:20px;
+      width:300px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    img{
+      max-width:100%;
+      border-radius:15px;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      background:rgba(0,0,0,0.4);
+    }
+  </style>
 </head>
 
 <body>
@@ -50,23 +114,88 @@
   © Kadam Foundation
 </footer>
 
-<!-- FLOATING MENU -->
-<div id="menuBtn">☰</div>
-<div id="settingsPopup" class="popup hidden">
-  <div class="popupItem" onclick="openThemeSelector()">🎨 Change Theme</div>
-</div>
+<!-- ================= MAIN SCRIPT ================= -->
+<script>
+async function loadWebsiteData(){
 
-<div id="themeModal" class="modal hidden">
-  <div class="modalBox">
-    <h3>Choose Theme</h3>
-    <button onclick="setTheme('glass')">Glass Theme</button>
-    <button onclick="setTheme('clean')">Clean Theme</button>
-    <button onclick="setTheme('youth')">Youth Theme</button>
-    <button onclick="setTheme('dark')">Dark Premium</button>
-    <button class="closeBtn" onclick="closeTheme()">Close</button>
-  </div>
-</div>
+  const res = await fetch("/data");
+  const data = await res.json();
 
-<script src="script.js"></script>
+  applyIndexSettings(data.indexSettings);
+
+  /* ===== HALL OF FAME ===== */
+  let hofHTML = "";
+  data.hof.forEach(img=>{
+    hofHTML += `<div class="card"><img src="${img}"></div>`;
+  });
+  document.getElementById("hofContainer").innerHTML = hofHTML;
+
+  /* ===== TESTIMONIALS ===== */
+  let tHTML = "";
+  data.testimonials.forEach(t=>{
+    tHTML += `<div class="card"><h3>${t.name}</h3><p>${t.text}</p></div>`;
+  });
+  document.getElementById("testimonialContainer").innerHTML = tHTML;
+
+  /* ===== EVENTS ===== */
+  let eHTML = "";
+  data.events.forEach(e=>{
+    eHTML += `
+      <div class="card">
+        ${e.image ? `<img src="${e.image}">` : ""}
+        <h3>${e.title}</h3>
+        <p>${e.date}</p>
+        ${e.brochure ? `<img src="${e.brochure}">` : ""}
+      </div>`;
+  });
+  document.getElementById("eventContainer").innerHTML = eHTML;
+
+  /* ===== QR ===== */
+  if(data.donationQR){
+    document.getElementById("donationQR").src = data.donationQR;
+  }
+
+  /* ===== SOCIAL ===== */
+  let sHTML = "";
+  data.socialLinks.forEach(s=>{
+    sHTML += `<div><a style="color:white;" href="${s.link}" target="_blank">${s.name}</a></div>`;
+  });
+  document.getElementById("socialContainer").innerHTML = sHTML;
+}
+
+window.onload = loadWebsiteData;
+
+
+/* ================= APPLY INDEX SETTINGS ================= */
+
+function applyIndexSettings(settings){
+  if(!settings) return;
+
+  Object.keys(settings).forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    const s = settings[id];
+
+    if(s.text) el.innerText = s.text;
+    el.style.color = s.color;
+    el.style.fontFamily = s.font;
+    el.style.textAlign = s.align;
+
+    el.style.background = "transparent";
+    el.style.borderRadius = "0";
+
+    if(s.box){
+      if(s.scope === "headline"){
+        el.style.display = "inline-block";
+      }
+      el.style.background = s.boxColor;
+      el.style.borderRadius = s.radius + "px";
+      el.style.padding = "10px 20px";
+    }
+  });
+}
+</script>
+
 </body>
 </html>
