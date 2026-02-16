@@ -197,27 +197,28 @@ function applyIndexSettings(settings){
 }
 </script>
 
-<!-- FLOATING MENU BUTTON -->
+<footer>
+  © Kadam Foundation
+</footer>
+
+<!-- FLOATING MENU START -->
 <div id="menuBtn">☰</div>
 
-<!-- SETTINGS POPUP -->
 <div id="settingsPopup" class="popup hidden">
   <div class="popupItem" onclick="openThemeSelector()">🎨 Change Theme</div>
 </div>
 
-<!-- THEME SELECTOR MODAL -->
 <div id="themeModal" class="modal hidden">
   <div class="modalBox">
     <h3>Choose Theme</h3>
-
     <button onclick="setTheme('glass')">Glass Theme</button>
     <button onclick="setTheme('clean')">Clean Theme</button>
     <button onclick="setTheme('youth')">Youth Theme</button>
     <button onclick="setTheme('dark')">Dark Premium</button>
-
     <button class="closeBtn" onclick="closeTheme()">Close</button>
   </div>
 </div>
-  
+<!-- FLOATING MENU END -->
+
 </body>
 </html>
