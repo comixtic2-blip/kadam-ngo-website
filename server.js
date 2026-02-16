@@ -24,6 +24,27 @@ function setPassword(newPass) {
     fs.writeFileSync(PASSWORD_FILE, JSON.stringify({ password: newPass }));
 }
 
+/* ================= DATA STORAGE SETUP ================= */
+const DATA_FILE = path.join(__dirname, 'data.json');
+
+function readData() {
+    if (!fs.existsSync(DATA_FILE)) {
+        fs.writeFileSync(DATA_FILE, JSON.stringify({
+            hof: [],
+            events: [],
+            testimonials: [],
+            socialLinks: [],
+            donationQR: "",
+            indexSettings: {}
+        }, null, 2));
+    }
+    return JSON.parse(fs.readFileSync(DATA_FILE));
+}
+
+function saveData(data) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
+
 /* ================= API ROUTES ================= */
 
 // LOGIN
@@ -35,15 +56,24 @@ app.post("/login", (req, res) => {
 // UPDATE PASSWORD
 app.post("/update-password", (req, res) => {
     const newPass = req.body.newPass;
-    if (!newPass) {
-        return res.status(400).json({ success: false });
-    }
+    if (!newPass) return res.status(400).json({ success: false });
 
     setPassword(newPass);
     res.json({ success: true });
 });
 
-// UPDATE INDEX
+// GET ALL SITE DATA
+app.get("/data", (req, res) => {
+    res.json(readData());
+});
+
+// UPDATE SITE DATA
+app.post("/data", (req, res) => {
+    saveData(req.body);
+    res.json({ success: true });
+});
+
+// UPDATE INDEX FILE (admin raw editor)
 app.post('/update-index', (req, res) => {
     const newContent = req.body.content;
     fs.writeFile('index.html', newContent, err => {
@@ -68,10 +98,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/upload-image', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ success: false });
-    }
-
+    if (!req.file) return res.status(400).json({ success: false });
     res.json({ path: '/uploads/' + req.file.filename });
 });
 
@@ -81,37 +108,4 @@ app.use(express.static(__dirname));
 /* ================= START SERVER ================= */
 app.listen(port, '0.0.0.0', () => {
     console.log("Server running on port " + port);
-});
-
-const DATA_FILE = "data.json";
-
-/* ===== READ DATA ===== */
-function readData() {
-    if (!fs.existsSync(DATA_FILE)) {
-        fs.writeFileSync(DATA_FILE, JSON.stringify({
-            hof: [],
-            events: [],
-            testimonials: [],
-            socialLinks: [],
-            donationQR: "",
-            indexSettings: {}
-        }, null, 2));
-    }
-    return JSON.parse(fs.readFileSync(DATA_FILE));
-}
-
-/* ===== SAVE DATA ===== */
-function saveData(data) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
-
-/* ===== GET DATA ===== */
-app.get("/data", (req, res) => {
-    res.json(readData());
-});
-
-/* ===== UPDATE DATA ===== */
-app.post("/data", (req, res) => {
-    saveData(req.body);
-    res.json({ success: true });
 });
