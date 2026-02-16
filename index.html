@@ -3,76 +3,10 @@
 <head>
   <title>Kadam Foundation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-      color:white;
-    }
-
-    nav{
-      display:flex;
-      justify-content:center;
-      gap:30px;
-      padding:20px;
-      background:rgba(0,0,0,0.3);
-      backdrop-filter:blur(10px);
-    }
-
-    nav a{
-      text-decoration:none;
-      font-weight:bold;
-      color:white;
-    }
-
-    header{
-      text-align:center;
-      padding:40px 20px;
-    }
-
-    header img{
-      width:120px;
-    }
-
-    section{
-      padding:50px 20px;
-      text-align:center;
-    }
-
-    .cards{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:20px;
-    }
-
-    .card{
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(15px);
-      border-radius:20px;
-      padding:20px;
-      width:300px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    img{
-      max-width:100%;
-      border-radius:15px;
-    }
-
-    footer{
-      text-align:center;
-      padding:30px;
-      background:rgba(0,0,0,0.4);
-    }
-  </style>
 </head>
 
-<body class="glass">
+<body>
 
 <nav id="mainNav">
   <a href="index.html">Home</a>
@@ -118,7 +52,6 @@
 
 <!-- FLOATING MENU -->
 <div id="menuBtn">☰</div>
-
 <div id="settingsPopup" class="popup hidden">
   <div class="popupItem" onclick="openThemeSelector()">🎨 Change Theme</div>
 </div>
@@ -126,15 +59,14 @@
 <div id="themeModal" class="modal hidden">
   <div class="modalBox">
     <h3>Choose Theme</h3>
-    <button onclick="setTheme('glass')">Glass</button>
-    <button onclick="setTheme('clean')">Clean</button>
-    <button onclick="setTheme('youth')">Youth</button>
-    <button onclick="setTheme('dark')">Dark</button>
+    <button onclick="setTheme('glass')">Glass Theme</button>
+    <button onclick="setTheme('clean')">Clean Theme</button>
+    <button onclick="setTheme('youth')">Youth Theme</button>
+    <button onclick="setTheme('dark')">Dark Premium</button>
     <button class="closeBtn" onclick="closeTheme()">Close</button>
   </div>
 </div>
 
-<script src="index-script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>
