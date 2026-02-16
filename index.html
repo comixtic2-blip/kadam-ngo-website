@@ -5,128 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-/* ================= THEME: GLASS ================= */
-
-body.theme-glass{
-  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  color:white;
-}
-
-body.theme-glass .card{
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(18px);
-  border-radius:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-body.theme-glass nav{
-  background:rgba(0,0,0,0.3);
-  backdrop-filter:blur(12px);
-}
-
-
-/* ================= THEME: CLEAN ================= */
-
-body.theme-clean{
-  background:#f8fafc;
-  color:#111;
-}
-
-body.theme-clean nav{
-  background:white;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-body.theme-clean nav a{
-  color:#111;
-}
-
-body.theme-clean .card{
-  background:white;
-  color:#111;
-  border-radius:8px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
-
-body.theme-clean section{
-  padding:40px 20px;
-}
-
-
-/* ================= THEME: YOUTH ================= */
-
-body.theme-youth{
-  background:linear-gradient(135deg,#ff512f,#dd2476,#24c6dc);
-  color:white;
-}
-
-body.theme-youth nav{
-  background:rgba(255,255,255,0.15);
-}
-
-body.theme-youth .card{
-  background:rgba(255,255,255,0.25);
-  border-radius:30px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.25);
-  transition:all 0.3s ease;
-}
-
-body.theme-youth .card:hover{
-  transform:scale(1.05);
-}
-
-body.theme-youth h2{
-  font-size:32px;
-  letter-spacing:2px;
-}
-
-
-/* ================= THEME: DARK PREMIUM ================= */
-
-body.theme-dark{
-  background:#0b0f19;
-  color:#f5f5f5;
-  font-family:Georgia, serif;
-}
-
-body.theme-dark nav{
-  background:#111827;
-  border-bottom:1px solid #333;
-}
-
-body.theme-dark nav a{
-  color:#d4af37; /* gold accent */
-}
-
-body.theme-dark .card{
-  background:#1a1f2e;
-  border-radius:10px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.6);
-  border:1px solid #333;
-}
-
-body.theme-dark h2{
-  color:#d4af37;
-}
-    
-    nav{
-      display:flex;
-      justify-content:center;
-      gap:30px;
-      padding:20px;
-      background:rgba(0,0,0,0.3);
-      backdrop-filter:blur(10px);
-    }
-
-    nav a{
-      text-decoration:none;
-      font-weight:bold;
-      color:inherit;
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      color:white;
+      transition: all 0.4s ease;
     }
 
     header{
       text-align:center;
-      padding:40px 20px;
+      padding:60px 20px 40px 20px;
     }
 
     header img{
@@ -146,21 +35,13 @@ body.theme-dark h2{
     }
 
     .card{
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(15px);
+      background:rgba(255,255,255,0.12);
+      backdrop-filter:blur(18px);
       border-radius:20px;
       padding:20px;
       width:300px;
       box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    body.theme-clean .card{
-      background:white;
-      color:#111;
-    }
-
-    body.theme-dark .card{
-      background:#1a1f2e;
+      transition:0.3s;
     }
 
     img{
@@ -178,7 +59,7 @@ body.theme-dark h2{
 
     .floating-btn{
       position:fixed;
-      bottom:20px;
+      top:20px;
       right:20px;
       width:55px;
       height:55px;
@@ -193,7 +74,6 @@ body.theme-dark h2{
       z-index:9999;
     }
 
-    /* Hamburger lines */
     .hamburger{
       width:25px;
       height:3px;
@@ -213,39 +93,39 @@ body.theme-dark h2{
       left:0;
     }
 
-    .hamburger::before{
-      top:-8px;
-    }
-
-    .hamburger::after{
-      top:8px;
-    }
+    .hamburger::before{ top:-8px; }
+    .hamburger::after{ top:8px; }
 
     /* ================= POPUP ================= */
 
     .popup-menu{
       position:fixed;
-      bottom:85px;
+      top:85px;
       right:20px;
       background:rgba(255,255,255,0.15);
       backdrop-filter:blur(20px);
       border-radius:15px;
-      padding:10px;
+      padding:15px;
       display:none;
       z-index:9999;
-      min-width:160px;
+      min-width:180px;
     }
 
+    .popup-menu a,
     .popup-menu button{
+      display:block;
       width:100%;
       padding:10px;
       border:none;
       background:none;
       color:inherit;
-      cursor:pointer;
       text-align:left;
+      text-decoration:none;
+      font-weight:bold;
+      cursor:pointer;
     }
 
+    .popup-menu a:hover,
     .popup-menu button:hover{
       background:rgba(255,255,255,0.2);
       border-radius:10px;
@@ -294,13 +174,6 @@ body.theme-dark h2{
 
 <body>
 
-<nav id="mainNav">
-  <a href="index.html">Home</a>
-  <a href="apply.html">Apply</a>
-  <a href="members.html">Members</a>
-  <a href="admin.html">Admin</a>
-</nav>
-
 <header>
   <img id="siteLogo" src="logo.png">
   <h1 id="mainTitle">Kadam Foundation</h1>
@@ -336,15 +209,22 @@ body.theme-dark h2{
   © Kadam Foundation
 </footer>
 
-<!-- FLOATING BUTTON -->
+<!-- FLOATING MENU BUTTON -->
 <button class="floating-btn" onclick="togglePopup()">
   <div class="hamburger"></div>
 </button>
 
+<!-- POPUP MENU -->
 <div class="popup-menu" id="popupMenu">
+  <a href="index.html">Home</a>
+  <a href="apply.html">Apply</a>
+  <a href="members.html">Members</a>
+  <a href="admin.html">Admin</a>
+  <hr style="border:1px solid rgba(255,255,255,0.2);">
   <button onclick="openThemeModal()">🎨 Change Theme</button>
 </div>
 
+<!-- THEME MODAL -->
 <div class="modal-overlay" id="themeModal">
   <div class="modal-box">
     <h3>Select Theme</h3>
@@ -362,7 +242,6 @@ body.theme-dark h2{
 async function loadWebsiteData(){
   const res = await fetch("/data");
   const data = await res.json();
-  applyIndexSettings(data.indexSettings);
 
   let hofHTML = "";
   data.hof.forEach(img=>{
@@ -399,12 +278,9 @@ async function loadWebsiteData(){
   document.getElementById("socialContainer").innerHTML = sHTML;
 }
 
-window.onload = function(){
-  loadWebsiteData();
-  loadSavedTheme();
-};
+window.onload = loadWebsiteData;
 
-/* ================= THEME FUNCTIONS ================= */
+/* ================= MENU FUNCTIONS ================= */
 
 function togglePopup(){
   const menu = document.getElementById("popupMenu");
@@ -424,36 +300,6 @@ function applyTheme(theme){
   document.body.className = theme;
   localStorage.setItem("selectedTheme", theme);
   closeThemeModal();
-}
-
-function loadSavedTheme(){
-  const saved = localStorage.getItem("selectedTheme");
-  document.body.className = saved ? saved : "theme-glass";
-}
-
-/* ================= INDEX SETTINGS ================= */
-
-function applyIndexSettings(settings){
-  if(!settings) return;
-  Object.keys(settings).forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    const s = settings[id];
-    if(s.text) el.innerText = s.text;
-    el.style.color = s.color;
-    el.style.fontFamily = s.font;
-    el.style.textAlign = s.align;
-    el.style.background = "transparent";
-    el.style.borderRadius = "0";
-    if(s.box){
-      if(s.scope === "headline"){
-        el.style.display = "inline-block";
-      }
-      el.style.background = s.boxColor;
-      el.style.borderRadius = s.radius + "px";
-      el.style.padding = "10px 20px";
-    }
-  });
 }
 
 </script>
