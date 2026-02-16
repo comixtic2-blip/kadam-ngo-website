@@ -163,22 +163,69 @@ function revealOnScroll(){
 
 window.addEventListener("scroll", revealOnScroll);
 
-/* ================= MENU FUNCTIONS ================= */
+/* ================= ULTRA ELITE SYSTEM ================= */
 
+const popup = document.getElementById("popupMenu");
+const btn = document.querySelector(".floating-btn");
+const modal = document.getElementById("themeModal");
+const progressBar = document.getElementById("progressBar");
+const cursorGlow = document.getElementById("cursorGlow");
+
+/* Scroll Progress */
+window.addEventListener("scroll", ()=>{
+  const scrollTop = window.scrollY;
+  const height = document.body.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / height) * 100;
+  progressBar.style.width = progress + "%";
+});
+
+/* Magnetic Card Effect */
+document.addEventListener("mousemove", e=>{
+  document.querySelectorAll(".card").forEach(card=>{
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if(x > 0 && x < rect.width && y > 0 && y < rect.height){
+      card.style.transform =
+        `rotateX(${(y - rect.height/2)/15}deg)
+         rotateY(${(x - rect.width/2)/15}deg)
+         scale(1.05)`;
+    } else {
+      card.style.transform = "";
+    }
+  });
+
+  /* Cursor glow */
+  cursorGlow.style.left = e.clientX + "px";
+  cursorGlow.style.top = e.clientY + "px";
+});
+
+/* Popup Toggle */
 function togglePopup(){
-  const menu = document.getElementById("popupMenu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+  popup.classList.toggle("show");
+  btn.classList.toggle("active");
 }
 
+/* Close popup on outside click */
+document.addEventListener("click", e=>{
+  if(!popup.contains(e.target) && !btn.contains(e.target)){
+    popup.classList.remove("show");
+    btn.classList.remove("active");
+  }
+});
+
+/* Modal */
 function openThemeModal(){
-  document.getElementById("themeModal").style.display = "flex";
-  document.getElementById("popupMenu").style.display = "none";
+  modal.classList.add("show");
+  popup.classList.remove("show");
 }
 
 function closeThemeModal(){
-  document.getElementById("themeModal").style.display = "none";
+  modal.classList.remove("show");
 }
 
+/* Theme */
 function applyTheme(theme){
   document.body.className = theme;
   localStorage.setItem("selectedTheme", theme);
